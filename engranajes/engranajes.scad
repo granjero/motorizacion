@@ -5,40 +5,51 @@ Asociacón de Amigos de la Astronomía
 (https://www.amigosdelaastronomia.org/)
 
 Softare libre.
-
 ***********************************************/
+
 include <gears.scad> // https://github.com/chrisspen/gears
 
-// PARAMETROS MONTURA
-RADIO_BASE_MONTURA = 240;
+DIAMETRO_BASE_MONTURA = 480; // medida de la base de la montura en milimetros.
 
-MODULO = 1.245;
+MODULO = 1.1185; // modificar este valor segun corresponda para que el valor de "Ring Gear Outer Diamater" que se lee al ejecutar el programa sea lo más cercano al diametro de la base de la montura en milimetros.  
+
+
+// En teoría no haría falta modificar las variables de más abajo
 
 // PARAMETROS CORONA
-CANT_DIENTES_CORONA = 360;
+DIAMETRO_CORONA = DIAMETRO_BASE_MONTURA; 
+CANT_DIENTES_CORONA = 400;
 ALTO_CORONA = 15;
 ANCHO_CORONA = 15;
-DIAMETRO_CORONA = 481; // ejecutar el programa una vez y copiar el valor de ECHO: "Ring Gear Outer Diamater = "
 PARTES = 6; // CANTIDAD DE PARTES EN LA QUE SE DIVIDIRA LA CORONA PARA IMPRIMIR 3D
-TORNILLOS = 6; // CANTIDAD DE ORIFICIOS EN LA CORONA PARA IMPRIMIR
-
+TORNILLOS = 6; // CANTIDAD DE ORIFICIOS EN LA CORONA PARTIDA PARA IMPRIMIR
 
 // PARAMETROS PIÑON
-CANT_DIENTES_PINON = 18;
+CANT_DIENTES_PINON = 20;
 ALTO_PINON = 15;
 ANCHO_EJE_MOTOR = 5.5;
 DIAMETRO_ANCLAJE_PINON = 18.5;
 
+// PARAMETROS REDUCCION
+CANT_DIENTES_REDUCCION_CORONA = 100;
+CANT_DIENTES_REDUCCION_PINON = 20;
+ALTO_REDUCCION_CORONA = 10;
+ALTO_REDUCCION_PINON = 20;
+ANCHO_EJE_REDUCCION = 5;
+
 
 // COMENTAR O DESCOMENTAR SEGUN CORRESPONDA
-//baseMontura(); // comentar al hacer el render para imprimir
+/*baseMontura(); // comentar al hacer el render para imprimir*/
 
 //coronaCompleta(); // comentar al hacer el render para imprimir  
 //coronaDivididaEnPartes(); // comentar al hacer el render para imprimir
 //orificiosParaTornillos (); // comentar al hacer el render para imprimir
+
 /*coronaPara3D();*/
 
-pinon();
+reduccionPara3D();
+
+/*pinonPara3D();*/
 
 //
 // CORONA
@@ -51,7 +62,7 @@ module baseMontura(color = "Indigo")
     translate([0,0,-25])
     color(color, 0.4) {
         union(){
-            cylinder(h = 18, r = RADIO_BASE_MONTURA,center = true);
+            cylinder(h = 18, r = DIAMETRO_CORONA / 2,center = true);
         }
     }
 }
@@ -105,7 +116,7 @@ module coronaPara3D ()
 // PIÑON
 //
 
-module pinon()
+module pinonPara3D()
 {
     altoAnclajeEje = 20;
     difference()
@@ -135,5 +146,34 @@ module pinon()
         rotate([0,90,0])
         cylinder(h =20, d = 3.5);
     }
+}
+
+//
+// REDUCCION
+//
+
+module reduccionPara3D()
+{
+
+    translate([0,0,ALTO_REDUCCION_CORONA])
+    rotate([180])
+    spur_gear (
+            modul=MODULO, 
+            tooth_number=CANT_DIENTES_REDUCCION_CORONA, 
+            width=ALTO_REDUCCION_CORONA, 
+            bore=ANCHO_EJE_REDUCCION, 
+            pressure_angle=20, 
+            helix_angle=0, 
+            optimized=true);
+    translate([0,0,ALTO_REDUCCION_CORONA])
+    spur_gear (
+            modul=MODULO, 
+            tooth_number=CANT_DIENTES_REDUCCION_PINON, 
+            width=ALTO_REDUCCION_PINON, 
+            bore=ANCHO_EJE_REDUCCION, 
+            pressure_angle=20, 
+            helix_angle=0, 
+            optimized=true);
+    // huecos para los tornillos 
 
 }
