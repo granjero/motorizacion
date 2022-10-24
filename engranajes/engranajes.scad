@@ -20,8 +20,8 @@ MODULO = 1.1185; // modificar este valor segun corresponda para que el valor de 
 DIAMETRO_CORONA = DIAMETRO_BASE_MONTURA; 
 CANT_DIENTES_CORONA = 400;
 ALTO_CORONA = 15;
-ANCHO_CORONA = 15;
-PARTES = 6; // CANTIDAD DE PARTES EN LA QUE SE DIVIDIRA LA CORONA PARA IMPRIMIR 3D
+ANCHO_CORONA = 15; // esta variable modifica el valor de "Ring Gear Outer Diamater" 
+PARTES = 8; // CANTIDAD DE PARTES EN LA QUE SE DIVIDIRA LA CORONA PARA IMPRIMIR 3D
 TORNILLOS = 6; // CANTIDAD DE ORIFICIOS EN LA CORONA PARTIDA PARA IMPRIMIR
 
 // PARAMETROS PIÑON
@@ -45,11 +45,11 @@ ANCHO_EJE_REDUCCION = 5;
 //coronaDivididaEnPartes(); // comentar al hacer el render para imprimir
 //orificiosParaTornillos (); // comentar al hacer el render para imprimir
 
-/*coronaPara3D();*/
-
-reduccionPara3D();
+coronaPara3D();
 
 /*pinonPara3D();*/
+
+/*reduccionPara3D();*/
 
 //
 // CORONA
